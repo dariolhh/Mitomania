@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>¿Es verdad lo que me decís?</title>
+<style>
+    body {
+        background: #f2f2f2;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    .contenedor {
+        background: white;
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 16px;
+    }
+    button {
+        cursor: pointer;
+        background: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+    .resultado {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e3f2fd;
+        border-left: 4px solid #1976d2;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>¿Es verdad lo que me decís?</h2>
+
+    <label>¿Quién te habló?</label>
+    <input id="nombre" type="text">
+
+    <label>¿Qué te dijo?</label>
+    <input id="frase" type="text">
+
+    <button onclick="procesar()">Calcular</button>
+
+    <div id="salida" class="resultado" style="display:none;"></div>
+</div>
+
+<script>
+function obtenerNombreCompleto(nombreIngresado) {
+    let nombre = nombreIngresado.toLowerCase();
+
+    if (nombre.includes("florencia") || nombre.includes("flor")) {
+        return "florencia abigail rodriguez rios";
+    } else if (nombre.includes("lucas")) {
+        return "lucas";
+    } else {
+        return nombreIngresado;
+    }
+}
+
+function calcularVerdad(nombreCompleto) {
+    let nombre = nombreCompleto.toLowerCase();
+
+    if (nombre.includes("florencia abigail rodriguez rios") || nombre.includes("flor")) {
+        return Math.floor(Math.random() * 9) + 1;  // 1 a 9
+    } else if (nombre.includes("lucas")) {
+        return Math.floor(Math.random() * 13) + 88; // 88 a 100
+    } else {
+        return Math.floor(Math.random() * 100); // 0 a 99
+    }
+}
+
+function procesar() {
+    let nombreIngresado = document.getElementById("nombre").value;
+    let fraseIngresada = document.getElementById("frase").value;
+
+    if (nombreIngresado.trim() === "" || fraseIngresada.trim() === "") {
+        alert("Completá los campos.");
+        return;
+    }
+
+    let nombreCompleto = obtenerNombreCompleto(nombreIngresado);
+    let porcentajeVerdad = calcularVerdad(nombreCompleto);
+    let porcentajeMentira = 100 - porcentajeVerdad;
+
+    let salida = document.getElementById("salida");
+    salida.style.display = "block";
+    salida.innerHTML =
+        `<b>Te habló:</b> ${nombreCompleto}<br>
+         <b>Y te dijo:</b> "${fraseIngresada}"<br><br>
+         Pero es <b>${porcentajeVerdad}% verdad</b> y <b>${porcentajeMentira}% mentira</b>.`;
+}
+</script>
+
+</body>
+</html>
